@@ -74,8 +74,8 @@ public class ComunicazioneEspertoController {
                                     final Model model) {
         switch (filtro) {
             case "nome":
-                model.addAttribute("listaEsperti", comunicazioneEspertoService.
-                        getEsperiByName(stringa));
+                //model.addAttribute("listaEsperti", comunicazioneEspertoService. todo non fattibile se non tramite HTTP, ma potrei adottare una soluzione simile al servizio Biblioteca
+                        //getEsperiByName(stringa));
                 break;
             case "genere":
                 model.addAttribute("listaEsperti", comunicazioneEspertoService.

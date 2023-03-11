@@ -86,10 +86,11 @@ public class Libro {
 
     /**
      * Rappresenta i tickets di cui fa parte il libro.
+     * todo rimosso perché considerata un'entità diversa rispetto a quella del servizio biblioteca
      */
-    @OneToMany(mappedBy = "libro")
-    @ToString.Exclude
-    private List<TicketPrestito> tickets;
+    //@OneToMany(mappedBy = "libro")
+    //@ToString.Exclude
+    //private List<TicketPrestito> tickets;
 
     /**
      * Rappresenta i generi di un libro.
@@ -107,8 +108,9 @@ public class Libro {
 
     /**
      * Rappresenta la relazione di possesso con una biblioteca.
+     * todo rimosso perché considerata un'entità diversa rispetto a quella del servizio biblioteca
      */
-    @OneToMany(mappedBy = "possessoID.libroID")
-    @ToString.Exclude
-    private List<Possesso> possessi;
+    //@OneToMany(mappedBy = "possessoID.libroID")
+    //@ToString.Exclude
+    //private List<Possesso> possessi;
 }

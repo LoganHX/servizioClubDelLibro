@@ -1,6 +1,8 @@
 package it.unisa.c07.biblionet.model.dao.utente;
 
 import it.unisa.c07.biblionet.model.entity.utente.Esperto;
+import it.unisa.c07.biblionet.model.entity.utente.UtenteRegistrato;
+import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
@@ -10,15 +12,14 @@ import java.util.List;
  * Questa classe rappresenta il DAO di un Esperto.
  */
 @Repository
-public interface EspertoDAO extends UtenteRegistratoDAO {
+public interface EspertoDAO extends JpaRepository<Esperto, String> {
 
     /**
      * Implementa la funzionalità di ricerca di un utente Esperto nel DB.
      * @param email dell'utente da cercare.
-     * @param password dell'utente da cercare.
      * @return dell'utente trovato.
      */
-    Esperto findByEmailAndPassword(String email, byte[] password);
+    Esperto findByEmail(String email);
 
     /**
      * Implementa la funzionalità di ricerca di tutti gli Esperti nel DB.
@@ -33,9 +34,11 @@ public interface EspertoDAO extends UtenteRegistratoDAO {
      * @param nome Il nome del genere
      * @return Esperti trovati
      */
-    @Query("SELECT e FROM Esperto e "
-            +  "WHERE UPPER(CONCAT(e.nome, ' ', e.cognome)) "
-            + "LIKE UPPER(concat('%', ?1,'%'))")
-    List<Esperto> findByNomeLike(String nome);
+    //@Query("SELECT e FROM Esperto e "
+      //      +  "WHERE UPPER(CONCAT(e.nome, ' ', e.cognome)) "
+        //    + "LIKE UPPER(concat('%', ?1,'%'))")
+    //List<Esperto> findByNomeLike(String nome);
+
+    //todo se serve va fatto tramite HTTP
 
 }

@@ -7,6 +7,8 @@ import java.util.function.Consumer;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
+import it.unisa.c07.biblionet.model.dao.utente.EspertoDAO;
+import it.unisa.c07.biblionet.model.dao.utente.LettoreDAO;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -56,6 +58,8 @@ public class ClubDelLibroController {
      * degli eventi.
      */
     private final GestioneEventiService eventiService;
+    private final EspertoDAO espertoDAO;
+    private final LettoreDAO lettoreDAO;
 
 
     /**
@@ -200,11 +204,9 @@ public class ClubDelLibroController {
                         public final String nome = club.getNome();
                         public final String descrizione =
                                                 club.getDescrizione();
-                        public final String nomeEsperto = club.getEsperto()
-                                                              .getNome()
-                                                          + " "
-                                                          + club.getEsperto()
-                                                                .getCognome();
+
+                        //todo chiamata HTTP all'altro servizio
+                        public final String nomeEsperto = "Paulo Dybala";
                         public final String immagineCopertina =
                                                 club.getImmagineCopertina();
                         public final Set<String> generi =
@@ -255,12 +257,16 @@ public class ClubDelLibroController {
     @RequestMapping(value = "/crea", method = RequestMethod.POST)
     public String creaClubDelLibro(final Model model,
                                    final @ModelAttribute ClubForm club) {
+
+        /*
         UtenteRegistrato utente =
                 (UtenteRegistrato) model.getAttribute("loggedUser");
         if (utente == null || !utente.getTipo().equals("Esperto")) {
                 throw new ResponseStatusException(HttpStatus.UNAUTHORIZED);
         }
-        var esperto = (Esperto) utente;
+        todo sostituire con token
+        */
+        var esperto = espertoDAO.getOne("dybala@gmail.com");
         ClubDelLibro cdl = new ClubDelLibro();
         cdl.setNome(club.getNome());
         cdl.setDescrizione(club.getDescrizione());
@@ -368,18 +374,22 @@ public class ClubDelLibroController {
     public String partecipaClub(final @PathVariable int id,
                                 final Model model) {
 
+        /*
         UtenteRegistrato lettore =
                 (UtenteRegistrato) model.getAttribute("loggedUser");
         if (lettore == null || !lettore.getTipo().equals("Lettore")) {
                 throw new ResponseStatusException(HttpStatus.UNAUTHORIZED);
         }
+        todo sostituire con token o con parametro mail nella richiesta POST?
+         */
+        Lettore lettore = lettoreDAO.findByID("dybala@gmail.com");
         ClubDelLibro clubDelLibro = this.clubService.getClubByID(id);
         if (clubDelLibro.getLettori().contains(lettore)) {
             throw new ResponseStatusException(HttpStatus.NOT_ACCEPTABLE);
         }
         this.clubService.partecipaClub(
                 clubDelLibro,
-                (Lettore) lettore);
+                lettore);
         return "redirect:/club-del-libro/";
     }
 
@@ -595,12 +605,15 @@ public class ClubDelLibroController {
         if (clubService.getClubByID(id) == null) {
                 throw new ResponseStatusException(HttpStatus.NOT_FOUND);
         }
+        /*
         UtenteRegistrato utente =
                 (UtenteRegistrato) model.getAttribute("loggedUser");
         if (utente == null || !utente.getTipo().equals("Lettore")) {
             throw new ResponseStatusException(HttpStatus.UNAUTHORIZED);
         }
-        Lettore l = (Lettore) utente;
+        todo prendere in qualche modo l'utente (token?)
+         */
+        Lettore l = lettoreDAO.findByID("dybala@gmail.com");
         List<Evento> tutti = clubService.getClubByID(id).getEventi();
         List<Evento> mieiEventi = l.getEventi();
         List<Evento> mieiEventiClub = new ArrayList<>();

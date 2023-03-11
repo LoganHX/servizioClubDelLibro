@@ -32,7 +32,7 @@ public interface ComunicazioneEspertoService {
      * @param name il nome con cui filtrare
      * @return la lista di esperti
      */
-    List<Esperto> getEsperiByName(String name);
+    //List<Esperto> getEsperiByName(String name);
 
     /**
      * Implementa la funzionalità che permette

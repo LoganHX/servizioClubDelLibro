@@ -11,14 +11,8 @@ import lombok.ToString;
 import lombok.experimental.SuperBuilder;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
-import javax.persistence.OneToMany;
-import javax.persistence.ManyToOne;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToMany;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.Transient;
+
+import javax.persistence.*;
 import java.util.List;
 
 /**
@@ -31,38 +25,23 @@ import java.util.List;
 @Entity
 @SuperBuilder
 @Data
-@EqualsAndHashCode(callSuper = true)
+@EqualsAndHashCode
 @NoArgsConstructor
-public class Esperto extends UtenteRegistrato implements HaGenere {
+public class Esperto implements HaGenere {
 
-    /**
-     * Rappresenta l'username dell'esperto.
-     */
+    @Id
+    @Column(nullable = false, length = Length.LENGTH_320)
     @NonNull
-    @Column(nullable = false, length = Length.LENGTH_30)
-    private String username;
+    private String email;
+
+
 
     /**
-     * Rappresenta il nome dell'esperto.
+     * Rappresenta la biblioteca dove lavora l'esperto. todo gestita attraverso la "chiave esterna"
      */
+    @Column(nullable = false, length = Length.LENGTH_60)
     @NonNull
-    @Column(nullable = false, length = Length.LENGTH_30)
-    private String nome;
-
-    /**
-     * Rappresenta il cognome dell'esperto.
-     */
-    @NonNull
-    @Column(nullable = false, length = Length.LENGTH_30)
-    private String cognome;
-
-    /**
-     * Rappresenta la bibloteca dove lavora l'esperto.
-     */
-    @ManyToOne
-    @JoinColumn(nullable = false)
-    @OnDelete(action = OnDeleteAction.CASCADE)
-    private Biblioteca biblioteca;
+    private String emailBiblioteca;
 
     /**
      * Rappresenta la lista di generi di cui un esperto è esperto.
@@ -78,36 +57,16 @@ public class Esperto extends UtenteRegistrato implements HaGenere {
     @ToString.Exclude
     private List<ClubDelLibro> clubs;
 
-    /**
-     * Rappresenta il tipo di utente.
-     */
-    @Transient
-    private String tipo = "Esperto";
 
     /**
      *
      * @param email È la mail dell'esperto.
-     * @param password È la password di accesso dell'esperto.
-     * @param provincia È la provincia in cui lavora l'esperto.
-     * @param citta È la città in cui lavora l'esperto.
-     * @param via È l'indirizzo in cui lavora l'esperto.
-     * @param recapitoTelefonico È il numero di telefono dell'esperto.
-     * @param username È l'username dell'esperto.
-     * @param nome È il nome dell'esperto.
-     * @param cognome È il cognome dell'esperto.
      * @param biblioteca È la biblioteca dove lavora l'esperto.
      */
-    public Esperto(final String email, final String password,
-                   final String provincia, final String citta,
-                   final String via,
-                   final String recapitoTelefonico, final String username,
-                   final String nome, final String cognome,
-                   final Biblioteca biblioteca) {
-        super(email, password, provincia, citta, via, recapitoTelefonico);
-        this.username = username;
-        this.nome = nome;
-        this.cognome = cognome;
-        this.biblioteca = biblioteca;
+    public Esperto(final String email,
+                   final String biblioteca) {
+        this.email = email;
+        this.emailBiblioteca = biblioteca;
     }
 /*
     public boolean equals (Object o){

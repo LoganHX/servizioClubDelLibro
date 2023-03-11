@@ -152,7 +152,8 @@ public class ClubDelLibroServiceImpl implements ClubDelLibroService {
      * @return la città del club
      */
     public String getCittaFromClubDelLibro(final ClubDelLibro club) {
-        return club.getEsperto().getBiblioteca().getCitta();
+        //todo non fa quello che ci si attende
+        return club.getEsperto().getEmailBiblioteca();
     }
 
     /**

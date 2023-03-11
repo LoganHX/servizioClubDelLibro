@@ -33,15 +33,13 @@ public class ComunicazioneEspertoServiceImpl
 
     @Override
     public final List<Esperto> getEspertiByGeneri(final List<Genere> generi) {
+        //todo sta query andrebbe invertita (fatta da Generi, magari modificando la relazione)
 
         List<Esperto> allEsperti = new ArrayList<>();
         List<Esperto> toReturn = new ArrayList<>();
 
-        for (UtenteRegistrato utente : espertoDAO.findAll()) {
-
-            if (utente.getTipo().equals("Esperto")) {
-                allEsperti.add((Esperto) utente);
-            }
+        for (Esperto utente : espertoDAO.findAll()) {
+            allEsperti.add((Esperto) utente);
         }
         for (Esperto esperto: allEsperti) {
             for (Genere genere : esperto.getGeneri()) {
@@ -69,10 +67,10 @@ public class ComunicazioneEspertoServiceImpl
      * @name il nome con cui filtrare
      * * @return la lista di esperti
      */
-    @Override
-    public List<Esperto> getEsperiByName(final String name) {
-        return espertoDAO.findByNomeLike(name);
-    }
+    //@Override
+    //public List<Esperto> getEsperiByName(final String name) {
+       // return espertoDAO.findByNomeLike(name);
+    //}
 
     /**
      * Implementa la funzionalità che permette
